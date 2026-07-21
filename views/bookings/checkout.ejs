@@ -1,0 +1,60 @@
+<% layout('layouts/boilerplate.ejs') %>
+<div class="container mt-4">
+  <div class="row">
+    <div class="col-md-7">
+      <div class="card shadow-sm">
+        <div class="card-body">
+          <h3>Complete your booking</h3>
+          <p><strong><%= listing.title %></strong></p>
+          <p>Check-in: <%= booking.checkIn.toDateString() %></p>
+          <p>Check-out: <%= booking.checkOut.toDateString() %></p>
+          <p>Guests: <%= booking.guestsCount %></p>
+          <p>Total amount: ₹<%= booking.totalAmount.toLocaleString("en-IN") %></p>
+          <button id="rzp-button" class="btn btn-success w-100">Pay with Razorpay</button>
+        </div>
+      </div>
+    </div>
+    <div class="col-md-5">
+      <div class="card shadow-sm">
+        <div class="card-body">
+          <h5>Booking summary</h5>
+          <p>Price per night: ₹<%= booking.pricePerNight.toLocaleString("en-IN") %></p>
+          <p>Cleaning fee: ₹<%= booking.cleaningFee.toLocaleString("en-IN") %></p>
+          <p>Service fee: ₹<%= booking.serviceFee.toLocaleString("en-IN") %></p>
+          <p>Taxes: ₹<%= booking.taxes.toLocaleString("en-IN") %></p>
+          <hr />
+          <p><strong>Total: ₹<%= booking.totalAmount.toLocaleString("en-IN") %></strong></p>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script src="https://checkout.razorpay.com/v1/checkout.js"></script>
+<script>
+  const options = {
+    key: "<%= process.env.RAZORPAY_KEY_ID %>",
+    amount: <%= booking.totalAmount * 100 %>,
+    currency: "INR",
+    name: "StayNest",
+    description: "Booking Payment",
+    order_id: "<%= order.id %>",
+    handler: function (response) {
+      fetch("/payments/verify-payment", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          bookingId: "<%= booking._id %>",
+          razorpay_order_id: response.razorpay_order_id,
+          razorpay_payment_id: response.razorpay_payment_id,
+          razorpay_signature: response.razorpay_signature
+        })
+      }).then(() => window.location.href = "/payments/history");
+    },
+    theme: { color: "#0d6efd" }
+  };
+  document.getElementById("rzp-button").onclick = function () {
+    const rzp = new Razorpay(options);
+    rzp.open();
+  };
+</script>

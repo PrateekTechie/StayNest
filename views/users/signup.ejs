@@ -1,0 +1,71 @@
+<% layout('layouts/boilerplate.ejs') %>
+
+<div class="row">
+    <div class="col-6 offset-3">
+        <h1>SignUP on Staynest</h1>
+
+        <form method="post" action="/user/signup" class="needs-validation">
+
+            <div class="mb-3">
+                <label for="username" class="form-label">Username</label>
+
+                <input
+                    type="text"
+                    name="username"
+                    id="username"
+                    value=""
+                    required
+                    minlength="3"
+                    maxlength="20"
+                    pattern="^[A-Za-z0-9_]+$"
+                    class="form-control"
+                >
+
+                <div class="invalid-feedback">
+                    Username must be 3-20 characters long and contain only letters, numbers, and underscores.
+                </div>
+            </div>
+
+            <div class="mb-3">
+                <label for="email" class="form-label">Email</label>
+
+                <input
+                    type="email"
+                    name="email"
+                    id="email"
+                    value=""
+                    required
+                    class="form-control"
+                >
+
+                <div class="invalid-feedback">
+                    Please enter a valid email address.
+                </div>
+            </div>
+
+            <div class="mb-3">
+                <label for="Password" class="form-label">Password</label>
+
+                <input
+                    type="password"
+                    name="password"
+                    id="password"
+                    required
+                    minlength="8"
+                    title="Minimum 8 charecters"
+                >
+                <style>
+                    #password {
+                        width: 550px;
+                    }
+                </style>
+                <div class="invalid-feedback">
+                    Password must contain at least 8 characters, one uppercase letter, one lowercase letter, one number, and one special character.
+                </div>
+            </div>
+
+            <button class="btn btn-success">Sign Up</button>
+
+        </form>
+    </div>
+</div>

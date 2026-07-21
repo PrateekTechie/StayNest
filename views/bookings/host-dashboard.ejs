@@ -1,0 +1,24 @@
+<% layout('layouts/boilerplate.ejs') %>
+<div class="container mt-4">
+  <h3>Host Dashboard</h3>
+  <div class="row">
+    <% bookings.forEach(booking => { %>
+      <div class="col-md-6 mb-3">
+        <div class="card">
+          <div class="card-body">
+            <h5 class="card-title"><%= booking.listing && booking.listing.title %></h5>
+            <p>Guest: <%= booking.guest %></p>
+            <p>Status: <%= booking.bookingStatus %></p>
+            <p>Amount: ₹<%= booking.totalAmount.toLocaleString("en-IN") %></p>
+            <form method="POST" action="/payments/approve/<%= booking._id %>" class="d-inline">
+              <button class="btn btn-sm btn-success">Approve</button>
+            </form>
+            <form method="POST" action="/payments/reject/<%= booking._id %>" class="d-inline">
+              <button class="btn btn-sm btn-danger">Reject</button>
+            </form>
+          </div>
+        </div>
+      </div>
+    <% }) %>
+  </div>
+</div>

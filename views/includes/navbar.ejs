@@ -1,0 +1,191 @@
+<style>
+.btn-search {
+    background-color: #fe424d;
+    color: white;
+    border: none;
+    border-radius: 25px;
+    padding: 0.5rem 1rem;
+    font-weight: 500;
+}
+
+.btn-search:hover {
+    background-color: #fe424d;
+    color: white;
+}
+
+.btn-search i {
+    margin-right: 8px;
+}
+
+.search-input {
+    border-radius: 25px;
+    padding: 0.5rem 1rem;
+    width: 350px;
+}
+
+.search-form {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+</style>
+
+
+<nav class="navbar navbar-expand-lg bg-body-light border-bottom sticky-top">
+    <div class="container-fluid">
+
+        <!-- StayNest Logo -->
+        <a class="navbar-brand" href="/listings">
+            <i class="fa-solid fa-people-roof"></i>
+            <b>StayNest</b>
+        </a>
+
+
+        <!-- Show the full navbar only on normal pages -->
+        <% if (
+            currentPath !== "/user/login" &&
+            currentPath !== "/user/signup"
+        ) { %>
+
+
+            <button
+                class="navbar-toggler"
+                type="button"
+                data-bs-toggle="collapse"
+                data-bs-target="#navbarNavAltMarkup"
+            >
+                <span class="navbar-toggler-icon"></span>
+            </button>
+
+
+            <div
+                class="collapse navbar-collapse"
+                id="navbarNavAltMarkup"
+            >
+
+                <!-- Explore -->
+                <div class="navbar-nav">
+                    <a
+                        class="nav-link"
+                        href="/listings"
+                    >
+                        Explore
+                    </a>
+                </div>
+
+
+                <!-- Search -->
+                <div class="navbar-nav ms-auto">
+
+                    <form
+                        id="navbar-search-form"
+                        class="d-flex search-form"
+                        action="/listings"
+                        method="GET"
+                    >
+
+                        <input
+                            class="form-control search-input"
+                            type="search"
+                            name="search"
+                            placeholder="Search destinations..."
+                            value="<%= typeof searchQuery !== 'undefined' ? searchQuery : '' %>"
+                            autocomplete="off"
+                        >
+
+                        <button
+                            id="search-submit-btn"
+                            class="btn btn-search"
+                            type="submit"
+                            data-loading-text="Searching..."
+                        >
+                            <i class="fa-solid fa-magnifying-glass"></i>
+                            Search
+                        </button>
+
+
+                        <button
+                            id="smart-search-btn"
+                            class="btn btn-outline-secondary"
+                            type="submit"
+                            formaction="/listings/smart-search"
+                            formmethod="post"
+                            data-loading-text="Thinking..."
+                        >
+                            <i class="fa-solid fa-brain"></i>
+                            Smart Search
+                        </button>
+
+                    </form>
+
+                    <script>
+                        document.addEventListener("DOMContentLoaded", function () {
+                            const form = document.getElementById("navbar-search-form");
+                            if (!form) return;
+
+                            form.addEventListener("submit", function () {
+                                const buttons = form.querySelectorAll("button[type='submit']");
+                                buttons.forEach((button) => {
+                                    button.disabled = true;
+                                    const loadingText = button.getAttribute("data-loading-text");
+                                    if (loadingText) {
+                                        button.dataset.originalText = button.innerHTML;
+                                        button.innerHTML = loadingText;
+                                    }
+                                });
+                            });
+                        });
+                    </script>
+
+                </div>
+
+
+                <!-- Right side navigation -->
+                <div class="navbar-nav ms-auto">
+
+                    <a
+                        class="nav-link"
+                        href="/listings/new"
+                    >
+                        StayNest your home
+                    </a>
+
+
+                    <% if (!currentUser) { %>
+
+                        <a
+                            class="nav-link"
+                            href="/user/signup"
+                        >
+                            <b>Sign up</b>
+                        </a>
+
+
+                        <a
+                            class="nav-link"
+                            href="/user/login"
+                        >
+                            <b>Login</b>
+                        </a>
+
+
+                    <% } else { %>
+
+                        <a
+                            class="nav-link"
+                            href="/user/logout"
+                        >
+                            Logout
+                        </a>
+
+                    <% } %>
+
+                </div>
+
+            </div>
+
+
+        <% } %>
+
+    </div>
+</nav>

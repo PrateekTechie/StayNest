@@ -1,0 +1,193 @@
+body {
+    display: flex;
+    flex-direction:column;
+    min-height:100vh;
+}
+.navbar {
+    height: 5rem;
+}
+
+.container {
+    flex: 1;
+}
+
+.fa-people-roof {
+    color:#fe424d;
+    font-size: 2rem;
+}
+.nav-link {
+    color:#222222 !important;
+    
+}
+.f-info-links a {
+    text-decoration: none;
+    color: #222222;
+}
+
+.f-info-links a:hover {
+    text-decoration: underline;
+    color: #222222;
+}
+
+.f-info-links,.f-info-brand {
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin-bottom: 0.5rem;
+}
+
+
+.f-info-socials {
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+   
+}
+
+.f-info-socials i {
+     font-size: 1.2rem;
+    margin-right: 0.5rem;
+}
+
+
+
+.f-info {
+    text-align:center;
+    height: 8rem;
+    background-color: #ebebeb;
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    align-items: space-evenly;
+   
+}
+
+/* card */
+.card {
+    border: none !important;
+    margin-bottom: 2rem;
+
+}
+
+.card-img-top {
+  border-radius: 1rem !important;
+  width: 100%;
+  object-fit: cover !important;
+}
+
+.card-body {
+    padding: 0 !important;
+}
+
+.card-text {
+    font-weight: 400 !important;
+}
+
+.listing-links {
+    text-decoration: none;
+}
+
+.card-img-overlay {
+    opacity: 0;
+}
+
+.card-img-overlay:hover {
+    opacity: 0.2;
+    background-color:white;
+}
+
+.show-img {
+    height:30vh;
+   
+
+}
+
+.edit-btn{
+    background-color: #ff0000;
+    border-color: #ff0000;
+    color: white;
+}
+
+
+.delete-btn {
+    display:flex;
+}
+
+.show-card {
+    padding-left:0;
+    padding-right:0;
+}
+
+.edit-btn {
+    position: relative;
+    top: -20px;
+}
+
+/* mapbox */
+#map {
+    height: 400px;
+    width:80vh;
+}
+
+.popup-content {
+    padding: 4px;
+    font-family: Arial, sans-serif;
+}
+
+.popup-content h6 {
+    margin: 0;
+    font-size: 15px;
+    font-weight: 600;
+    color: #222;
+}
+
+.popup-content p {
+    margin: 4px 0 0;
+    font-size: 13px;
+    color: #717171;
+    line-height: 1.4;
+}
+
+/* Popup Styling */
+.mapboxgl-popup-content{
+    border-radius:16px;
+    padding:15px;
+    border:none;
+    box-shadow:0 8px 25px rgba(0,0,0,.15);
+}
+
+.staynest-popup{
+    min-width:220px;
+}
+
+.popup-header{
+    display:flex;
+    align-items:center;
+    gap:10px;
+    margin-bottom:8px;
+}
+
+.popup-icon{
+    color:#ff385c;
+    font-size:24px;
+}
+
+.popup-title{
+    font-size:18px;
+    font-weight:700;
+    color:#222;
+}
+
+.staynest-popup h6{
+    margin:0;
+    font-size:15px;
+    font-weight:600;
+}
+
+.staynest-popup p{
+    margin:5px 0 0;
+    font-size:13px;
+    color:#717171;
+}

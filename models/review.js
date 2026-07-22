@@ -19,7 +19,20 @@ const reviewSchema = new Schema ({
     author : {
         type : Schema.Types.ObjectId,
         ref: "user"
-    }
+    },
+    trustScore: {
+        type: Number,
+        default: 100,
+    },
+    trustLabel: {
+        type: String,
+        default: "Genuine Review",
+    },
+    trustReasons: [
+        {
+            type: String,
+        }
+    ]
 });
 
 const Review =

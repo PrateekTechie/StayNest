@@ -1,17 +1,31 @@
 const Listing = require("../models/listing");
 const Review = require("../models/review");
+const { analyzeReview } = require("../services/reviewTrustService");
+
 module.exports.CreateReview = async(req, res) => {
-    console.log(req.params.id);
-    let listing = await Listing.findById(req.params.id);
-    let newReview = new Review(req.body.review);
+    const listing = await Listing.findById(req.params.id);
+    const recentReviews = await Review.find({ _id: { $in: listing.reviews } }).sort({ createdAt: -1 }).limit(5);
+    const authorReviewCount = await Review.countDocuments({ author: req.user._id });
+
+    const reviewData = req.body.review;
+    const analysis = analyzeReview({
+        comment: reviewData.comment,
+        rating: Number(reviewData.rating),
+        authorReviewCount,
+        recentReviews,
+    });
+
+    const newReview = new Review(reviewData);
     newReview.author = req.user._id;
-    console.log(newReview);
+    newReview.trustScore = analysis.trustScore;
+    newReview.trustLabel = analysis.trustLabel;
+    newReview.trustReasons = analysis.trustReasons;
+
     listing.reviews.push(newReview);
     await newReview.save();
     await listing.save();
 
-    req.flash("success", "you have successfully added a new review");
-    
+    req.flash("success", `Review submitted. ${analysis.trustLabel} with ${analysis.trustScore}% trust score.`);
     res.redirect(`/listings/${listing._id}`);
 };
 

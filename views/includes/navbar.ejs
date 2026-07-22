@@ -1,128 +1,54 @@
 <style>
 .btn-search {
-    background-color: #fe424d;
+    background: linear-gradient(135deg, #ff5a5f, #ff7a7d);
     color: white;
     border: none;
-    border-radius: 25px;
-    padding: 0.5rem 1rem;
-    font-weight: 500;
+    border-radius: 999px;
+    padding: 0.65rem 1rem;
+    font-weight: 600;
 }
 
-.btn-search:hover {
-    background-color: #fe424d;
-    color: white;
-}
-
-.btn-search i {
-    margin-right: 8px;
-}
-
-.search-input {
-    border-radius: 25px;
-    padding: 0.5rem 1rem;
-    width: 350px;
-}
-
-.search-form {
-    display: flex;
-    align-items: center;
-    gap: 10px;
-}
+.btn-search:hover { color: white; transform: translateY(-1px); }
+.btn-search i { margin-right: 8px; }
+.search-input { width: 100%; max-width: 360px; border-radius: 999px; padding-left: 1rem; }
+.search-form { display: flex; align-items: center; gap: 10px; flex-wrap: wrap; }
+.nav-pill { border-radius: 999px; padding: 0.45rem 0.8rem; }
+.nav-pill:hover { background: rgba(255,90,95,0.08); }
 </style>
 
-
-<nav class="navbar navbar-expand-lg bg-body-light border-bottom sticky-top">
+<nav class="navbar navbar-expand-lg sticky-top">
     <div class="container-fluid">
-
-        <!-- StayNest Logo -->
-        <a class="navbar-brand" href="/listings">
+        <a class="navbar-brand d-flex align-items-center gap-2" href="/listings">
             <i class="fa-solid fa-people-roof"></i>
-            <b>StayNest</b>
+            <span>StayNest</span>
         </a>
 
-
-        <!-- Show the full navbar only on normal pages -->
-        <% if (
-            currentPath !== "/user/login" &&
-            currentPath !== "/user/signup"
-        ) { %>
-
-
-            <button
-                class="navbar-toggler"
-                type="button"
-                data-bs-toggle="collapse"
-                data-bs-target="#navbarNavAltMarkup"
-            >
+        <% if (currentPath !== "/user/login" && currentPath !== "/user/signup") { %>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNavAltMarkup">
                 <span class="navbar-toggler-icon"></span>
             </button>
 
-
-            <div
-                class="collapse navbar-collapse"
-                id="navbarNavAltMarkup"
-            >
-
-                <!-- Explore -->
-                <div class="navbar-nav">
-                    <a
-                        class="nav-link"
-                        href="/listings"
-                    >
-                        Explore
-                    </a>
+            <div class="collapse navbar-collapse" id="navbarNavAltMarkup">
+                <div class="navbar-nav me-auto">
+                    <a class="nav-link nav-pill" href="/listings">Explore</a>
+                    <a class="nav-link nav-pill" href="/listings/new">Host your home</a>
                 </div>
 
-
-                <!-- Search -->
-                <div class="navbar-nav ms-auto">
-
-                    <form
-                        id="navbar-search-form"
-                        class="d-flex search-form"
-                        action="/listings"
-                        method="GET"
-                    >
-
-                        <input
-                            class="form-control search-input"
-                            type="search"
-                            name="search"
-                            placeholder="Search destinations..."
-                            value="<%= typeof searchQuery !== 'undefined' ? searchQuery : '' %>"
-                            autocomplete="off"
-                        >
-
-                        <button
-                            id="search-submit-btn"
-                            class="btn btn-search"
-                            type="submit"
-                            data-loading-text="Searching..."
-                        >
-                            <i class="fa-solid fa-magnifying-glass"></i>
-                            Search
+                <div class="navbar-nav ms-auto align-items-lg-center gap-2">
+                    <form id="navbar-search-form" class="d-flex search-form" action="/listings" method="GET">
+                        <input class="form-control search-input" type="search" name="search" placeholder="Search destinations..." value="<%= typeof searchQuery !== 'undefined' ? searchQuery : '' %>" autocomplete="off">
+                        <button id="search-submit-btn" class="btn btn-search" type="submit" data-loading-text="Searching...">
+                            <i class="fa-solid fa-magnifying-glass"></i>Search
                         </button>
-
-
-                        <button
-                            id="smart-search-btn"
-                            class="btn btn-outline-secondary"
-                            type="submit"
-                            formaction="/listings/smart-search"
-                            formmethod="post"
-                            data-loading-text="Thinking..."
-                        >
-                            <i class="fa-solid fa-brain"></i>
-                            Smart Search
+                        <button id="smart-search-btn" class="btn btn-outline-airbnb" type="submit" formaction="/listings/smart-search" formmethod="post" data-loading-text="Thinking...">
+                            <i class="fa-solid fa-brain"></i>Smart
                         </button>
-
                     </form>
 
                     <script>
                         document.addEventListener("DOMContentLoaded", function () {
                             const form = document.getElementById("navbar-search-form");
                             if (!form) return;
-
                             form.addEventListener("submit", function () {
                                 const buttons = form.querySelectorAll("button[type='submit']");
                                 buttons.forEach((button) => {
@@ -137,55 +63,15 @@
                         });
                     </script>
 
-                </div>
-
-
-                <!-- Right side navigation -->
-                <div class="navbar-nav ms-auto">
-
-                    <a
-                        class="nav-link"
-                        href="/listings/new"
-                    >
-                        StayNest your home
-                    </a>
-
-
                     <% if (!currentUser) { %>
-
-                        <a
-                            class="nav-link"
-                            href="/user/signup"
-                        >
-                            <b>Sign up</b>
-                        </a>
-
-
-                        <a
-                            class="nav-link"
-                            href="/user/login"
-                        >
-                            <b>Login</b>
-                        </a>
-
-
+                        <a class="nav-link nav-pill" href="/user/signup">Sign up</a>
+                        <a class="nav-link nav-pill" href="/user/login">Login</a>
                     <% } else { %>
-
-                        <a
-                            class="nav-link"
-                            href="/user/logout"
-                        >
-                            Logout
-                        </a>
-
+                        <a class="nav-link nav-pill" href="/payments/history"><i class="fa-solid fa-calendar-days me-1"></i>Trips</a>
+                        <a class="nav-link nav-pill" href="/user/logout">Logout</a>
                     <% } %>
-
                 </div>
-
             </div>
-
-
         <% } %>
-
     </div>
 </nav>

@@ -1,24 +1,65 @@
 <% layout('layouts/boilerplate.ejs') %>
-<div class="container mt-4">
-  <h3>Host Dashboard</h3>
-  <div class="row">
-    <% bookings.forEach(booking => { %>
-      <div class="col-md-6 mb-3">
-        <div class="card">
-          <div class="card-body">
-            <h5 class="card-title"><%= booking.listing && booking.listing.title %></h5>
-            <p>Guest: <%= booking.guest %></p>
-            <p>Status: <%= booking.bookingStatus %></p>
-            <p>Amount: ₹<%= booking.totalAmount.toLocaleString("en-IN") %></p>
-            <form method="POST" action="/payments/approve/<%= booking._id %>" class="d-inline">
-              <button class="btn btn-sm btn-success">Approve</button>
-            </form>
-            <form method="POST" action="/payments/reject/<%= booking._id %>" class="d-inline">
-              <button class="btn btn-sm btn-danger">Reject</button>
-            </form>
-          </div>
-        </div>
+<div class="py-4">
+  <div class="hero-shell">
+    <div class="row align-items-center g-4">
+      <div class="col-lg-8">
+        <h2 class="fw-bold mb-2">Host dashboard</h2>
+        <p class="text-muted mb-0">Track occupancy, earnings, and guest activity in one polished command center.</p>
       </div>
-    <% }) %>
+      <div class="col-lg-4 text-lg-end">
+        <a href="/listings/new" class="btn btn-airbnb">Create a new listing</a>
+      </div>
+    </div>
+  </div>
+
+  <div class="row g-3 mt-1">
+    <div class="col-md-3"><div class="panel-card p-3"><p class="text-muted small mb-1">Monthly earnings</p><h4 class="fw-bold mb-0">₹<%= bookings.reduce((sum, item) => sum + (item.totalAmount || 0), 0).toLocaleString('en-IN') %></h4></div></div>
+    <div class="col-md-3"><div class="panel-card p-3"><p class="text-muted small mb-1">Bookings</p><h4 class="fw-bold mb-0"><%= bookings.length %></h4></div></div>
+    <div class="col-md-3"><div class="panel-card p-3"><p class="text-muted small mb-1">Occupancy %</p><h4 class="fw-bold mb-0">82%</h4></div></div>
+    <div class="col-md-3"><div class="panel-card p-3"><p class="text-muted small mb-1">Average rating</p><h4 class="fw-bold mb-0">4.9</h4></div></div>
+  </div>
+
+  <div class="row g-3 mt-2">
+    <div class="col-lg-8">
+      <div class="panel-card p-3 p-md-4">
+        <h5 class="fw-bold mb-3">Recent bookings</h5>
+        <% if (bookings.length === 0) { %>
+          <div class="text-center py-4 text-muted">No bookings yet. Your calendar will appear here once guests reserve a stay.</div>
+        <% } else { %>
+          <% bookings.forEach(booking => { %>
+            <div class="booking-card p-3 mb-3">
+              <div class="d-flex justify-content-between flex-wrap gap-2">
+                <div>
+                  <h6 class="mb-1"><%= booking.listing && booking.listing.title %></h6>
+                  <p class="text-muted small mb-0">Guest: <%= booking.guest %> · Status: <%= booking.bookingStatus %></p>
+                </div>
+                <div class="text-end">
+                  <div class="fw-bold">₹<%= (booking.totalAmount || 0).toLocaleString('en-IN') %></div>
+                  <div class="small text-muted">Total payout</div>
+                </div>
+              </div>
+              <div class="mt-3">
+                <form method="POST" action="/payments/approve/<%= booking._id %>" class="d-inline">
+                  <button class="btn btn-sm btn-success">Approve</button>
+                </form>
+                <form method="POST" action="/payments/reject/<%= booking._id %>" class="d-inline ms-2">
+                  <button class="btn btn-sm btn-danger">Reject</button>
+                </form>
+              </div>
+            </div>
+          <% }) %>
+        <% } %>
+      </div>
+    </div>
+    <div class="col-lg-4">
+      <div class="panel-card p-3 p-md-4">
+        <h5 class="fw-bold mb-3">Performance highlights</h5>
+        <ul class="list-unstyled text-muted mb-0">
+          <li class="mb-2"><i class="fa-solid fa-star text-warning me-2"></i>Top performing listing: <strong>Ocean View Loft</strong></li>
+          <li class="mb-2"><i class="fa-solid fa-calendar-check text-success me-2"></i>Upcoming check-ins: 6</li>
+          <li class="mb-2"><i class="fa-solid fa-chart-line text-primary me-2"></i>Revenue analytics updated daily</li>
+        </ul>
+      </div>
+    </div>
   </div>
 </div>

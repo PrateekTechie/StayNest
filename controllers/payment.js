@@ -96,11 +96,12 @@ module.exports.createBooking = async function createBooking(req, res) {
         }
 
         return res.render("bookings/checkout.ejs", {
-            booking,
-            order,
-            listing,
-            guest: req.user,
-        });
+    booking,
+    order,
+    listing,
+    guest: req.user,
+    razorpayKey: process.env.RAZORPAY_KEY_ID,
+});
     } catch (err) {
         console.error(err);
         return res.status(500).json({ success: false, message: "Booking failed" });

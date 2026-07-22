@@ -1,13 +1,13 @@
 <% if (success && success.length > 0) { %>
-  <div class="alert alert-success alert-dismissible fade show col-6 offset-3" role="alert">
-    <%= success[0] %>
+  <div class="alert alert-success alert-dismissible fade show mx-auto mt-3 shadow-sm" role="alert" style="max-width: 720px; border-radius: 1rem;">
+    <i class="fa-solid fa-circle-check me-2"></i><%= success[0] %>
     <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
   </div>
 <% } %>
 
 <% if (error && error.length > 0) { %>
-  <div class="alert alert-danger alert-dismissible fade show col-6 offset-3" role="alert">
-    <%= error[0] %>
+  <div class="alert alert-danger alert-dismissible fade show mx-auto mt-3 shadow-sm" role="alert" style="max-width: 720px; border-radius: 1rem;">
+    <i class="fa-solid fa-triangle-exclamation me-2"></i><%= error[0] %>
     <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
   </div>
 <% } %>

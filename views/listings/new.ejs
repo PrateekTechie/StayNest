@@ -1,83 +1,24 @@
 <% layout('layouts/boilerplate.ejs') %>
-<div class="row">
-    <div class="col-8 offset-2">
-     <br/><br/>
-    <h3> Create A New Listing</h3>
-   
-    <% if (typeof error !== 'undefined') { %>
-        <div class="alert alert-danger" role="alert">
-            <%= error %>
+<div class="row justify-content-center py-4">
+    <div class="col-lg-8">
+        <div class="panel-card p-4 p-md-5">
+            <h3 class="fw-bold mb-3">Create a new listing</h3>
+            <p class="text-muted">Share your stay with travelers looking for a polished and memorable experience.</p>
+            <% if (typeof error !== 'undefined') { %><div class="alert alert-danger" role="alert"><%= error %></div><% } %>
+            <form method="POST" action="/listings" enctype="multipart/form-data">
+                <div class="mb-3"><label for="title" class="form-label">Title</label><input type="text" name="listing[title]" value="<%= typeof listing !== 'undefined' ? listing.title || '' : '' %>" required placeholder="Enter a striking title" class="form-control"></div>
+                <div class="mb-3"><label for="description" class="form-label">Description</label><textarea name="listing[description]" placeholder="Describe what makes your place special" class="form-control" rows="4" required><%= typeof listing !== 'undefined' ? listing.description || '' : '' %></textarea></div>
+                <div class="row g-3">
+                    <div class="col-md-6"><label for="price" class="form-label">Price</label><input type="number" name="listing[price]" value="<%= typeof listing !== 'undefined' ? listing.price || '' : '' %>" placeholder="Enter nightly price" class="form-control" required min="0"></div>
+                    <div class="col-md-6"><label class="form-label">Category</label><select class="form-select" name="listing[category]" required><option value="">Select Category</option><option value="Trending">Trending</option><option value="Room">Room</option><option value="Iconic Cities">Iconic Cities</option><option value="Mountains">Mountains</option><option value="Castles">Castles</option><option value="Arctic">Arctic</option><option value="Beaches">Beaches</option><option value="Camping">Camping</option><option value="Farms">Farms</option><option value="Villas">Villas</option></select></div>
+                </div>
+                <div class="mb-3 mt-3"><label for="image" class="form-label">Upload image</label><input type="file" name="listing[image]" class="form-control" accept="image/*" required></div>
+                <div class="row g-3">
+                    <div class="col-md-6"><label for="location" class="form-label">Location</label><input name="listing[location]" value="<%= typeof listing !== 'undefined' ? listing.location || '' : '' %>" placeholder="Enter the location" type="text" class="form-control" required></div>
+                    <div class="col-md-6"><label for="country" class="form-label">Country</label><input type="text" name="listing[country]" value="<%= typeof listing !== 'undefined' ? listing.country || '' : '' %>" placeholder="Enter your country" class="form-control" required></div>
+                </div>
+                <button class="btn btn-airbnb mt-4">Add listing</button>
+            </form>
         </div>
-    <% } %>
-
-    <form method="POST" action="/listings" enctype="multipart/form-data">
-        <div class="mb-3">
-       <label for="title" class="form-label"> Title</label>
-        <input type="text" name="listing[title]" value="<%= typeof listing !== 'undefined' ? listing.title || '' : '' %>" required placeholder="enter title" class="form-control">
-        <div class="invalid-feedback"> Enter the valid title</div>
-        </div>
-        
-        <div class="mb-3">
-             <label for="description" class="form-label"> Description</label>
-           <input type="text" name="listing[description]" value="<%= typeof listing !== 'undefined' ? listing.description || '' : '' %>" placeholder="enter the description" class="form-control" required placeholder="Enter the short description">
-           <div class="invalid-feedback">please enter  the short description</div>
-        </div>
-       
-        <div class="mb-3">
-            <label for="price" class="form-label">Price</label>
-            <input type="number" name="listing[price]" value="<%= typeof listing !== 'undefined' ? listing.price || '' : '' %>" placeholder="enter the price" class="form-control" required min="0">
-            <div class="invalid-feedback"> Please enter a valid price </div>
-        </div>
-
-        <div class="mb-3">
-    <label class="form-label">Category</label>
-
-    <select
-        class="form-select"
-        name="listing[category]"
-        required
-    >
-        <option value="">Select Category</option>
-
-        <option value="Trending">Trending</option>
-        <option value="Room">Room</option>
-        <option value="Iconic Cities">Iconic Cities</option>
-        <option value="Mountains">Mountains</option>
-        <option value="Castles">Castles</option>
-        <option value="Arctic">Arctic</option>
-        <option value="Beaches">Beaches</option>
-        <option value="Camping">Camping</option>
-        <option value="Farms">Farms</option>
-        <option value="Villas">Villas</option>
-    </select>
-</div>
-       
-        <div class="mb-3">
-    <label for="image" class="form-label">Upload Image</label>
-
-    <input
-        type="file"
-        name="listing[image]"
-        class="form-control"
-        accept="image/*"
-        required
-    >
-</div>
-        <div class="mb-3">
-             <label for="location" class="form-label">Location</label>
-             <input name="listing[location]" value="<%= typeof listing !== 'undefined' ? listing.location || '' : '' %>" placeholder="Enter the location" type="text" class="form-control" required>
-        </div>
-        
-        <div class="mb-3">
-            <label for="country" class="form-label">Country</label>
-            <input type="text" name="listing[country]" value="<%= typeof listing !== 'undefined' ? listing.country || '' : '' %>" placeholder="enter your country" class="form-control" required>
-        </div>
-        
-        <br><br />
-        <button class="btn btn-dark"> ADD</button>
-         <br/><br/>
-    </form>
     </div>
-    </div>
-    
-
+</div>

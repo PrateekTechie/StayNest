@@ -1,11 +1,18 @@
 <% layout('layouts/boilerplate.ejs') %>
-<div class="container mt-4">
-  <h3>My Trips</h3>
+<div class="py-4">
+  <div class="hero-shell">
+    <h2 class="fw-bold mb-2">My trips</h2>
+    <p class="text-muted mb-0">Keep track of upcoming stays, invoices, and booking activity in one refined view.</p>
+  </div>
+
   <% if (bookings.length === 0) { %>
-    <p>No bookings yet.</p>
+    <div class="panel-card p-5 text-center">
+      <h5 class="fw-bold mb-2">No trips yet</h5>
+      <p class="text-muted mb-0">Your future stays will appear here as soon as you book them.</p>
+    </div>
   <% } else { %>
-    <div class="table-responsive">
-      <table class="table table-bordered">
+    <div class="table-responsive panel-card p-3 mt-3">
+      <table class="table align-middle mb-0">
         <thead>
           <tr>
             <th>Listing</th>
@@ -15,6 +22,7 @@
             <th>Payment</th>
             <th>Order ID</th>
             <th>Payment ID</th>
+            <th></th>
           </tr>
         </thead>
         <tbody>
@@ -23,11 +31,11 @@
               <td><%= booking.listing && booking.listing.title %></td>
               <td><%= booking.checkIn.toDateString() %> → <%= booking.checkOut.toDateString() %></td>
               <td>₹<%= booking.totalAmount.toLocaleString("en-IN") %></td>
-              <td><%= booking.bookingStatus %></td>
-              <td><%= booking.paymentStatus %></td>
+              <td><span class="badge rounded-pill bg-light text-dark"><%= booking.bookingStatus %></span></td>
+              <td><span class="badge rounded-pill bg-light text-dark"><%= booking.paymentStatus %></span></td>
               <td><%= booking.orderId || "—" %></td>
               <td><%= booking.paymentId || "—" %></td>
-              <td><a href="/payments/invoice/<%= booking._id %>" class="btn btn-sm btn-outline-primary">Download Invoice</a></td>
+              <td><a href="/payments/invoice/<%= booking._id %>" class="btn btn-sm btn-outline-airbnb">Invoice</a></td>
             </tr>
           <% }) %>
         </tbody>

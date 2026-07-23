@@ -21,6 +21,7 @@ const passport = require("passport");
 const LocalStrategy = require("passport-local");
 const user = require("./models/user.js");
 const paymentRouter = require("./routes/payment.js");
+const pagesRouter = require("./routes/pages");
 
 
 
@@ -31,6 +32,7 @@ app.use(express.urlencoded({extended:true}));
 app.use(express.json());
 app.use(methodOverride("_method"));
 app.use(express.static(path.join(__dirname,"/public")));
+
 // const mongo_url ="mongodb://127.0.0.1:27017/wonderlust";
 const mongo_url = process.env.ATLASDB_URL;
 
@@ -94,8 +96,11 @@ app.use((req, res, next) => {
     res.locals.success = req.flash("success");
     res.locals.error = req.flash("error");
     res.locals.currentUser = req.user;
+    res.locals.currentPath = req.path;
     next();
 });
+
+app.use("/", pagesRouter); 
 
 app.get("/", (req, res) => {
     res.redirect("/listings");

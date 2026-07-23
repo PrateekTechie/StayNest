@@ -1,77 +1,124 @@
 <style>
-.btn-search {
-    background: linear-gradient(135deg, #ff5a5f, #ff7a7d);
-    color: white;
-    border: none;
-    border-radius: 999px;
-    padding: 0.65rem 1rem;
-    font-weight: 600;
+.btn-search{
+    background:linear-gradient(135deg,#ff5a5f,#ff7a7d);
+    color:#fff;
+    border:none;
+    border-radius:999px;
+    padding:.65rem 1rem;
+    font-weight:600;
 }
 
-.btn-search:hover { color: white; transform: translateY(-1px); }
-.btn-search i { margin-right: 8px; }
-.search-input { width: 100%; max-width: 360px; border-radius: 999px; padding-left: 1rem; }
-.search-form { display: flex; align-items: center; gap: 10px; flex-wrap: wrap; }
-.nav-pill { border-radius: 999px; padding: 0.45rem 0.8rem; }
-.nav-pill:hover { background: rgba(255,90,95,0.08); }
+.btn-search:hover{
+    color:#fff;
+}
+
+.btn-search i{
+    margin-right:8px;
+}
+
+.search-input{
+    width:100%;
+    max-width:360px;
+    border-radius:999px;
+    padding-left:1rem;
+}
+
+.search-input{
+    width:380px;
+    border-radius:999px;
+    padding-left:18px;
+}
+
+.nav-pill{
+    border-radius:999px;
+    padding:.45rem .8rem;
+}
+
+.nav-pill:hover{
+    background:rgba(255,90,95,.08);
+}
 </style>
+
+<%
+const user = typeof currentUser !== "undefined" ? currentUser : null;
+%>
 
 <nav class="navbar navbar-expand-lg sticky-top">
     <div class="container-fluid">
+
         <a class="navbar-brand d-flex align-items-center gap-2" href="/listings">
             <i class="fa-solid fa-people-roof"></i>
             <span>StayNest</span>
         </a>
 
-        <% if (currentPath !== "/user/login" && currentPath !== "/user/signup") { %>
-            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNavAltMarkup">
-                <span class="navbar-toggler-icon"></span>
+        <button class="navbar-toggler" type="button"
+            data-bs-toggle="collapse"
+            data-bs-target="#navbarNavAltMarkup">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+
+       <div class="collapse navbar-collapse" id="navbarNavAltMarkup">
+
+    <!-- Left -->
+    <div class="navbar-nav">
+        <a class="nav-link nav-pill" href="/listings">Explore</a>
+        <a class="nav-link nav-pill" href="/listings/new">Host your Home</a>
+    </div>
+
+    <!-- Center -->
+    <div class="mx-auto">
+        <form id="navbar-search-form"
+              class="d-flex search-form"
+              action="/listings"
+              method="GET">
+
+            <input
+                class="form-control search-input"
+                type="search"
+                name="search"
+                placeholder="Search destinations..."
+                autocomplete="off">
+
+            <button
+                id="search-submit-btn"
+                class="btn btn-search"
+                type="submit">
+                <i class="fa-solid fa-magnifying-glass"></i>
+                Search
             </button>
 
-            <div class="collapse navbar-collapse" id="navbarNavAltMarkup">
-                <div class="navbar-nav me-auto">
-                    <a class="nav-link nav-pill" href="/listings">Explore</a>
-                    <a class="nav-link nav-pill" href="/listings/new">Host your home</a>
-                </div>
+        </form>
+    </div>
 
-                <div class="navbar-nav ms-auto align-items-lg-center gap-2">
-                    <form id="navbar-search-form" class="d-flex search-form" action="/listings" method="GET">
-                        <input class="form-control search-input" type="search" name="search" placeholder="Search destinations..." value="<%= typeof searchQuery !== 'undefined' ? searchQuery : '' %>" autocomplete="off">
-                        <button id="search-submit-btn" class="btn btn-search" type="submit" data-loading-text="Searching...">
-                            <i class="fa-solid fa-magnifying-glass"></i>Search
-                        </button>
-                        <button id="smart-search-btn" class="btn btn-outline-airbnb" type="submit" formaction="/listings/smart-search" formmethod="post" data-loading-text="Thinking...">
-                            <i class="fa-solid fa-brain"></i>Smart
-                        </button>
-                    </form>
+    <!-- Right -->
+    <div class="navbar-nav ms-auto align-items-center">
 
-                    <script>
-                        document.addEventListener("DOMContentLoaded", function () {
-                            const form = document.getElementById("navbar-search-form");
-                            if (!form) return;
-                            form.addEventListener("submit", function () {
-                                const buttons = form.querySelectorAll("button[type='submit']");
-                                buttons.forEach((button) => {
-                                    button.disabled = true;
-                                    const loadingText = button.getAttribute("data-loading-text");
-                                    if (loadingText) {
-                                        button.dataset.originalText = button.innerHTML;
-                                        button.innerHTML = loadingText;
-                                    }
-                                });
-                            });
-                        });
-                    </script>
+        <% if(currentUser){ %>
 
-                    <% if (!currentUser) { %>
-                        <a class="nav-link nav-pill" href="/user/signup">Sign up</a>
-                        <a class="nav-link nav-pill" href="/user/login">Login</a>
-                    <% } else { %>
-                        <a class="nav-link nav-pill" href="/payments/history"><i class="fa-solid fa-calendar-days me-1"></i>Trips</a>
-                        <a class="nav-link nav-pill" href="/user/logout">Logout</a>
-                    <% } %>
-                </div>
-            </div>
+            <a class="nav-link nav-pill" href="/payments/history">
+                <i class="fa-solid fa-calendar-days me-1"></i>
+                Trips
+            </a>
+
+            <a class="nav-link nav-pill" href="/user/logout">
+                Logout
+            </a>
+
+        <% } else { %>
+
+            <a class="nav-link nav-pill" href="/user/signup">
+                Sign up
+            </a>
+
+            <a class="nav-link nav-pill" href="/user/login">
+                Login
+            </a>
+
         <% } %>
+
+    </div>
+
+</div>
+
     </div>
 </nav>

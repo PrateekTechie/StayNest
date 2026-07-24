@@ -42,12 +42,11 @@ module.exports.createBooking = async function createBooking(req, res) {
         }
 
         const overlappingBooking = await Booking.findOne({
-            listing: listing._id,
-            bookingStatus: { $in: ["Pending", "Confirmed", "Completed"] },
-            $or: [
-                { checkIn: { $lt: end }, checkOut: { $gt: start } },
-            ],
-        });
+    listing: listing._id,
+    bookingStatus: { $in: ["Confirmed", "Completed"] },
+    checkIn: { $lt: end },
+    checkOut: { $gt: start },
+});
 
         if (overlappingBooking) {
             return res.status(409).json({ success: false, message: "These dates are already booked" });
